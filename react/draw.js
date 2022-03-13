@@ -126,7 +126,7 @@ export class Draw extends PureComponent {
 
     _viewBox() {
         if (!this.state.backdropDimensions) return "";
-        
+
         // adapts the SVG viewbox dimensions to the image resize
         // due to the resize mode "contain"
         const { width, height } = this.state.backdropDimensions;
