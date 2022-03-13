@@ -16,6 +16,7 @@
         "type": "git",
         "url": "git+https://github.com/BeeMargarida/react-native-draw-image.git"
     },
+    "license": "Apache-2.0",
     "author": "Margarida Silva",
     "main": "index.js",
     "files": [
@@ -47,7 +48,6 @@
         "@babel/core": "^7.17.2",
         "@babel/runtime": "^7.17.2",
         "@react-native-community/eslint-config": "^3.0.1",
-        "babel-jest": "^27.5.1",
         "eslint": "^7.32.0",
         "jest": "^27.5.1",
         "metro-react-native-babel-preset": "^0.68.0",
