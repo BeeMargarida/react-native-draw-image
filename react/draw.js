@@ -11,7 +11,8 @@ export class Draw extends PureComponent {
             image: PropTypes.oneOfType([PropTypes.number, PropTypes.object]),
             imageProps: PropTypes.object,
             backdrop: PropTypes.object,
-            color: PropTypes.string,
+            strokeColor: PropTypes.string,
+            strokeWidth: PropTypes.number,
             exportFormat: PropTypes.string,
             exportQuality: PropTypes.number,
             onImageError: PropTypes.func,
@@ -25,7 +26,8 @@ export class Draw extends PureComponent {
             image: undefined,
             imageProps: {},
             onImageError: undefined,
-            color: "red",
+            strokeColor: "red",
+            strokeWidth: 3,
             exportFormat: "png",
             exportQuality: 1,
             style: {},
@@ -41,8 +43,6 @@ export class Draw extends PureComponent {
             currentPath: null
         };
 
-        this.restartPath = false;
-
         this.gesture = Gesture.Pan()
             .maxPointers(1)
             .averageTouches(true)
@@ -50,7 +50,8 @@ export class Draw extends PureComponent {
                 this.setState({
                     currentPath: {
                         points: `${e.absoluteX},${e.absoluteY}`,
-                        color: this.props.color
+                        color: this.props.strokeColor,
+                        width: this.props.strokeWidth
                     }
                 });
             })
@@ -67,7 +68,8 @@ export class Draw extends PureComponent {
                     paths: [...prevState.paths, prevState.currentPath],
                     currentPath: {
                             points: `${e.absoluteX},${e.absoluteY}`,
-                            color: this.props.color
+                        color: this.props.strokeColor,
+                        width: this.props.strokeWidth
                     }
                 }));
             });
@@ -123,7 +125,7 @@ export class Draw extends PureComponent {
                     points={path.points}
                     fill="none"
                     stroke={path.color}
-                    strokeWidth="3"
+                    strokeWidth={path.width}
                 />
             );
         });
@@ -131,14 +133,13 @@ export class Draw extends PureComponent {
 
     _renderCurrentPath() {
         if (!this.state.currentPath) return;
-        console.log(this.state.currentPath.points, this.state.currentPath.color);
         return (
             <Polyline
                 key={this.state.currentPath.points}
                 points={this.state.currentPath.points}
                 fill="none"
-                stroke={this.state.currentPath.color || this.props.color}
-                strokeWidth="3"
+                stroke={this.state.currentPath.color || this.props.strokeColor}
+                strokeWidth={this.state.currentPath.width}
             />
         );
     }
