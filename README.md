@@ -22,6 +22,8 @@ this.draw.export()
 this.draw.undo()
 ```
 
+An example of a project using this library can be seen in [react-native-draw-image-example](https://github.com/BeeMargarida/react-native-draw-image-example).
+
 ## License
 
 React Native Draw Image is currently licensed under the [Apache License, Version 2.0](http://www.apache.org/licenses/).
