@@ -9,7 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-*
+* Support for drawing on touch with configurable colors
+* Suport for image + drawings export with customizable formats
 
 ### Changed
 
