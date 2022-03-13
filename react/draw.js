@@ -132,7 +132,6 @@ export class Draw extends PureComponent {
             return `0 0 ${this.state.isLandscape ? height * this.state.aspectRatio : width} ${
                 this.state.isLandscape ? height : width / this.state.aspectRatio
             }`;
-            // return `0 0 ${height * this.state.aspectRatio} ${height}`;
         }
         return `0 0 ${width} ${height}`;
     }
