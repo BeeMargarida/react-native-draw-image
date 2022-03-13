@@ -100,6 +100,13 @@ export class Draw extends PureComponent {
         });
     }
 
+    undo() {
+        if (this.state.paths.length === 0) return;
+
+        this.setState(prevState => ({
+            paths: prevState.paths.slice(0, -1)
+        }));
+    }
 
     onBackdropLayout(e) {
         this.setState({
