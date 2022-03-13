@@ -39,7 +39,8 @@ export class Draw extends PureComponent {
         this.state = {
             rendererDimensions: null,
             lastTimestamp: null,
-            paths: [[]],
+            paths: [],
+            currentPath: null,
             finalImage: null
         };
 
@@ -51,33 +52,30 @@ export class Draw extends PureComponent {
                     Date.now() - this.state.lastTimestamp > this.props.pathCutInterval;
 
                 this.setState(prevState => {
-                    let paths = prevState.paths;
+                    const returnObject = {};
+
                     if (isNewPath) {
-                        paths = [
-                            ...paths,
-                            [
-                                {
-                                    x: e.absoluteX,
-                                    y: e.absoluteY,
-                                    color: this.props.color
-                                }
-                            ]
-                        ];
+                        const paths = [...prevState.paths, prevState.currentPath];
+                        const currentPath = {
+                            points: `${e.absoluteX},${e.absoluteY}`,
+                            color: this.props.color
+                        };
+
+                        returnObject.paths = paths;
+                        returnObject.currentPath = currentPath;
                     } else {
-                        paths[paths.length - 1] = [
-                            ...paths[paths.length - 1],
-                            {
-                                x: e.absoluteX,
-                                y: e.absoluteY,
-                                color: this.props.color
-                            }
-                        ];
+                        const currentPath = prevState.currentPath || {
+                            points: "",
+                            color: this.props.color
+                        };
+                        currentPath.points += ` ${e.absoluteX},${e.absoluteY}`;
+
+                        returnObject.currentPath = currentPath;
                     }
 
-                    return {
-                        paths: paths,
-                        lastTimestamp: Date.now()
-                    };
+                    returnObject.lastTimestamp = Date.now();
+
+                    return returnObject;
                 });
             });
     }
@@ -124,22 +122,32 @@ export class Draw extends PureComponent {
         return <View style={styles.image} />;
     }
 
-    _renderDrawings() {
+    _renderPaths() {
         return this.state.paths.map(path => {
-            const points = path.reduce(
-                (prevValue, currValue) => `${prevValue} ${currValue.x},${currValue.y}`,
-                ""
-            );
             return (
                 <Polyline
-                    key={points}
-                    points={points}
+                    key={path.points}
+                    points={path.points}
                     fill="none"
-                    stroke={this.props.color}
+                    stroke={path.color}
                     strokeWidth="3"
                 />
             );
         });
+    }
+
+    _renderCurrentPath() {
+        if (!this.state.currentPath) return;
+        console.log(this.state.currentPath.points, this.state.currentPath.color);
+        return (
+            <Polyline
+                key={this.state.currentPath.points}
+                points={this.state.currentPath.points}
+                fill="none"
+                stroke={this.state.currentPath.color || this.props.color}
+                strokeWidth="3"
+            />
+        );
     }
 
     render() {
@@ -150,7 +158,8 @@ export class Draw extends PureComponent {
                     <GestureDetector style={styles.gestureHandler} gesture={this.gesture}>
                         <View style={styles.renderer} onLayout={e => this.onLayout(e)}>
                             <Svg height="100%" width="100%" viewBox={this._viewBox()}>
-                                {this._renderDrawings()}
+                                {this._renderPaths()}
+                                {this._renderCurrentPath()}
                             </Svg>
                         </View>
                     </GestureDetector>
