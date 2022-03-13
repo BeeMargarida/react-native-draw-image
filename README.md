@@ -22,6 +22,8 @@ this.draw.export()
 this.draw.undo()
 ```
 
+![Example Android](examples/react-native-draw-image-android.gif)
+
 An example of a project using this library can be seen in [react-native-draw-image-example](https://github.com/BeeMargarida/react-native-draw-image-example).
 
 ## License
