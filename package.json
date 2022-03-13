@@ -1,0 +1,64 @@
+{
+    "name": "react-native-draw-image",
+    "version": "0.20.0",
+    "description": "Library for drawing over an image",
+    "keywords": [
+        "draw",
+        "image",
+        "react",
+        "native"
+    ],
+    "homepage": "https://github.com/BeeMargarida/react-native-draw-image#readme",
+    "bugs": {
+        "url": "https://github.com/BeeMargarida/react-native-draw-image/issues"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/BeeMargarida/react-native-draw-image.git"
+    },
+    "author": "Margarida Silva",
+    "main": "index.js",
+    "files": [
+        "index.js",
+        "LICENSE",
+        "dist/**/*",
+        "js/**/*.js",
+        "res/**/*.ico",
+        "res/**/*.png",
+        "res/**/*.svg",
+        "test/**/*.js",
+        "react/**/*.js",
+        "react/**/*.ico",
+        "react/**/*.png",
+        "react/**/*.svg"
+    ],
+    "scripts": {
+        "cleanup": "rm -rf node_modules && rm -f package-lock.json",
+        "lint": "eslint \"./**/*.js\"",
+        "lint-fix": "eslint \"./**/*.js\" --fix",
+        "prettier": "prettier \"./**/*.{js,json}\" --write",
+        "pretty": "npm run prettier && npm run lint-fix",
+        "upgrade": "npx sort-package-json && ncu -u"
+    },
+    "jest": {
+        "preset": "react-native"
+    },
+    "devDependencies": {
+        "@babel/core": "^7.17.2",
+        "@babel/runtime": "^7.17.2",
+        "@react-native-community/eslint-config": "^3.0.1",
+        "babel-jest": "^27.5.1",
+        "eslint": "^7.32.0",
+        "jest": "^27.5.1",
+        "metro-react-native-babel-preset": "^0.68.0",
+        "npm-check-updates": "^12.3.0",
+        "prettier": "^2.5.1",
+        "react": "^17.0.2",
+        "react-test-renderer": "^17.0.2",
+        "sort-package-json": "^1.54.0"
+    },
+    "peerDependencies": {
+        "react": "^17.0.2",
+        "react-native": "^0.67.2",
+    }
+}
