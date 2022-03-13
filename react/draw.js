@@ -126,8 +126,10 @@ export class Draw extends PureComponent {
 
     _viewBox() {
         if (!this.state.backdropDimensions) return "";
+        
+        // adapts the SVG viewbox dimensions to the image resize
+        // due to the resize mode "contain"
         const { width, height } = this.state.backdropDimensions;
-
         if (this.state.aspectRatio) {
             return `0 0 ${this.state.isLandscape ? height * this.state.aspectRatio : width} ${
                 this.state.isLandscape ? height : width / this.state.aspectRatio
@@ -143,6 +145,8 @@ export class Draw extends PureComponent {
     _rendererStyle() {
         if (!this.state.backdropDimensions) return [styles.renderer];
 
+        // adapts the rendered dimensions to the image resize
+        // due to the resize mode "contain"
         const { width, height } = this.state.backdropDimensions;
         return [
             styles.renderer,
