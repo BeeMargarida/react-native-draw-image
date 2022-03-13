@@ -26,7 +26,6 @@ export class Draw extends PureComponent {
             imageProps: {},
             onImageError: undefined,
             color: "red",
-            pathCutInterval: 120,
             exportFormat: "png",
             exportQuality: 1,
             style: {},
@@ -38,45 +37,39 @@ export class Draw extends PureComponent {
         super(props);
         this.state = {
             rendererDimensions: null,
-            lastTimestamp: null,
             paths: [],
-            currentPath: null,
-            finalImage: null
+            currentPath: null
         };
 
+        this.restartPath = false;
+
         this.gesture = Gesture.Pan()
+            .maxPointers(1)
             .averageTouches(true)
+            .onBegin(e => {
+                this.setState({
+                    currentPath: {
+                        points: `${e.absoluteX},${e.absoluteY}`,
+                        color: this.props.color
+                    }
+                });
+            })
             .onChange(e => {
-                const isNewPath =
-                    this.state.lastTimestamp !== null &&
-                    Date.now() - this.state.lastTimestamp > this.props.pathCutInterval;
-
-                this.setState(prevState => {
-                    const returnObject = {};
-
-                    if (isNewPath) {
-                        const paths = [...prevState.paths, prevState.currentPath];
-                        const currentPath = {
+                this.setState(prevState => ({
+                    currentPath: {
+                        ...prevState.currentPath,
+                        points: `${prevState.currentPath.points} ${e.absoluteX},${e.absoluteY}`
+                    }
+                }));
+            })
+            .onEnd(e => {
+                this.setState(prevState => ({
+                    paths: [...prevState.paths, prevState.currentPath],
+                    currentPath: {
                             points: `${e.absoluteX},${e.absoluteY}`,
                             color: this.props.color
-                        };
-
-                        returnObject.paths = paths;
-                        returnObject.currentPath = currentPath;
-                    } else {
-                        const currentPath = prevState.currentPath || {
-                            points: "",
-                            color: this.props.color
-                        };
-                        currentPath.points += ` ${e.absoluteX},${e.absoluteY}`;
-
-                        returnObject.currentPath = currentPath;
                     }
-
-                    returnObject.lastTimestamp = Date.now();
-
-                    return returnObject;
-                });
+                }));
             });
     }
 
