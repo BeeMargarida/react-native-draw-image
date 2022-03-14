@@ -1,4 +1,4 @@
-import React, { PureComponent } from "react";
+import React, { PureComponent, memo } from "react";
 import { Dimensions, Image, StyleSheet, View, ViewPropTypes } from "react-native";
 import { Gesture, GestureDetector, GestureHandlerRootView } from "react-native-gesture-handler";
 import { captureRef } from "react-native-view-shot";
@@ -186,30 +186,12 @@ export class Draw extends PureComponent {
     }
 
     _renderPaths() {
-        return this.state.paths.map(path => {
-            return (
-                <Polyline
-                    key={path.points}
-                    points={path.points}
-                    fill="none"
-                    stroke={path.color}
-                    strokeWidth={path.width}
-                />
-            );
-        });
+        return <Paths paths={this.state.paths} />;
     }
 
     _renderCurrentPath() {
         if (!this.state.currentPath) return;
-        return (
-            <Polyline
-                key={this.state.currentPath.points}
-                points={this.state.currentPath.points}
-                fill="none"
-                stroke={this.state.currentPath.color || this.props.strokeColor}
-                strokeWidth={this.state.currentPath.width}
-            />
-        );
+        return <Paths paths={[this.state.currentPath]} />;
     }
 
     render() {
@@ -230,6 +212,22 @@ export class Draw extends PureComponent {
         );
     }
 }
+
+function PathsDraw(props) {
+    return props.paths.map(path => {
+        return (
+            <Polyline
+                key={path.points}
+                points={path.points}
+                fill="none"
+                stroke={path.color}
+                strokeWidth={path.width}
+            />
+        );
+    });
+}
+
+const Paths = memo(PathsDraw);
 
 const styles = StyleSheet.create({
     draw: {
